@@ -62,7 +62,7 @@ void Character::change_y(float Y, std::vector<sf::Sprite> map) {
 }
 bool Character::on_ground(std::vector<sf::Sprite> map) {
 	//zmienienie pozycji rect
-	rect.setPosition(x, y + 5);
+	rect.setPosition(x, y + 6);
 	sf::RectangleShape r = rect;
 	//sprawdzanie kolizji rect z blokami mapy
 	if (std::any_of(map.begin(), map.end(), [r](sf::Sprite map_sprite) {return map_sprite.getGlobalBounds().intersects(r.getGlobalBounds());  })) {
