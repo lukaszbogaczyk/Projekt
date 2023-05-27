@@ -24,6 +24,27 @@ int main()
 
     std::vector<sf::Sprite> map_sprites;
 
+    std::vector<sf::CircleShape> powers;
+    unsigned short lg_timer = 300;
+
+    sf::CircleShape power_up1;
+    power_up1.setPosition(150, 450);
+    power_up1.setRadius(10);
+    power_up1.setFillColor(sf::Color(200, 0, 0));
+    powers.emplace_back(power_up1);
+
+    power_up1.setPosition(200, 300);
+    power_up1.setFillColor(sf::Color(200, 0, 0));
+    powers.emplace_back(power_up1);
+
+    power_up1.setPosition(500, 300);
+    power_up1.setFillColor(sf::Color(0, 0, 200));
+    powers.emplace_back(power_up1);
+
+    power_up1.setPosition(600, 200);
+    power_up1.setFillColor(sf::Color(0, 200, 0));
+    powers.emplace_back(power_up1);
+
 
     while (window.isOpen())
     {
@@ -57,12 +78,6 @@ int main()
                         velocity_y = -PLAYER_JUMP_VELOCITY;
                         character.set_double_jump(0);
                     }
-
-                }
-                if (event.key.code == sf::Keyboard::D)
-                {
-                    character.set_double_jump(1);
-
                 }
             }
             if (event.type == sf::Event::KeyReleased) {
@@ -82,6 +97,10 @@ int main()
 
         map_sprites = map.draw(window); //funkcja draw zwraca vektor z spritami bloków mapy
 
+        for (auto it = powers.begin(); it != powers.end(); it++) {
+            window.draw(*it);
+
+        }
         character.draw(window);
         camera.update(map, character);
 
@@ -90,10 +109,20 @@ int main()
         character.change_x(velocity_x, map_sprites);//zmiana pozycji
         character.change_y(velocity_y, map_sprites);
 
-        if (velocity_y < MAX_PLAYER_FALL_VELOCITY) {   //grawitacja
-            velocity_y += gravity;
+        if (velocity_y < MAX_PLAYER_FALL_VELOCITY && character.get_low_gravity()) {   //grawitacja
+            velocity_y += GRAVITY / 2;
+            lg_timer--;
+            if (lg_timer == 0) {
+                character.set_low_gravity(0);
+                lg_timer = 300;
+            }
+        }
+        else if (velocity_y < MAX_PLAYER_FALL_VELOCITY) {   //grawitacja
+            velocity_y += GRAVITY;
         }
 
+        character.change_lives(-1);
+        character.power_ups(powers);
 
 
         window.display();

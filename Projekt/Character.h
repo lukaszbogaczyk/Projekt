@@ -9,7 +9,9 @@ class Character
 	sf::Sprite sprite;
 	float x;
 	float y;
+	unsigned short lives;
 	bool double_jump;
+	bool low_gravity;
 
 public:
 	Character();
@@ -22,5 +24,9 @@ public:
 	bool on_ground(std::vector<sf::Sprite> map_sprites);
 	bool get_double_jump();
 	void set_double_jump(bool change_double_jump);
+	bool get_low_gravity();
+	void set_low_gravity(bool change_low_gravity);
+	void change_lives(short change);
+	void power_ups(std::vector<sf::CircleShape>& powers);
 	friend class Camera;
 };
