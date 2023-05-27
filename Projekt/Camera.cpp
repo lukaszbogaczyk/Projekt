@@ -13,11 +13,14 @@ void Camera::update(Map& map, Character& character)
 	if ((((character.x) + (character.sprite.getGlobalBounds().width / 2)) >= ((SCREEN_WIDTH / 2) + (character.sprite.getGlobalBounds().width / 2))) && ((((character.x) + (character.sprite.getGlobalBounds().width / 2)) <= (map.map_width - ((SCREEN_WIDTH / 2) - (character.sprite.getGlobalBounds().width / 2))))))
 	{
 		x = character.x;
-		view.setCenter(x, y);
+	}
+	else if(character.x <= SCREEN_WIDTH / 2)
+	{
+		x = SCREEN_WIDTH/2;	
 	}
 	else
 	{
-		x = 400;
-		view.setCenter(x, y);
+		x = map.map_width - (SCREEN_WIDTH / 2);
 	}
+	view.setCenter(x, y);
 }
