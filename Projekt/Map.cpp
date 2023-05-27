@@ -28,49 +28,53 @@ std::vector<sf::Sprite> Map::draw(sf::RenderWindow& _window)
 		{
 			switch (map[i][j])
 			{
-			case Cell::Empty:
-			{
-				continue;
-			}
-			case Cell::Brick:
-			{
-				sf::Sprite brick_sprite(brick_texture);
-				brick_sprite.setPosition(i * CELL_SIZE, j * CELL_SIZE);
-				_window.draw(brick_sprite);
-				sprites.emplace_back(brick_sprite);	//wektor spritów
-				break;
-			}
-			case Cell::Spike:
-			{
-				sf::Sprite spike_sprite(spike_texture);
-				if (map[i - 1][j] == Cell::Brick && map[i + 1][j] != Cell::Brick)
+				case Cell::Empty:
 				{
-					spike_sprite.setRotation(90);
-					spike_sprite.setPosition((i + 1) * CELL_SIZE, j * CELL_SIZE);
+					continue;
 				}
-				else if (map[i + 1][j] == Cell::Brick && map[i - 1][j] != Cell::Brick)
+				case Cell::Brick:
 				{
-					spike_sprite.setRotation(270);
-					spike_sprite.setPosition(i * CELL_SIZE, (j + 1) * CELL_SIZE);
+					sf::Sprite brick_sprite(brick_texture);
+					brick_sprite.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+					_window.draw(brick_sprite);
+					sprites.emplace_back(brick_sprite);	//wektor spritów
+					break;
 				}
-				else
+				case Cell::Spike:
 				{
-					spike_sprite.setRotation(0);
-					spike_sprite.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+					sf::Sprite spike_sprite(spike_texture);
+					if (map[i - 1][j] == Cell::Brick && map[i + 1][j] != Cell::Brick)
+					{
+						spike_sprite.setRotation(90);
+						spike_sprite.setPosition((i + 1) * CELL_SIZE, j * CELL_SIZE);
+					}
+					else if (map[i + 1][j] == Cell::Brick && map[i - 1][j] != Cell::Brick)
+					{
+						spike_sprite.setRotation(270);
+						spike_sprite.setPosition(i * CELL_SIZE, (j + 1) * CELL_SIZE);
+					}
+					else
+					{
+						spike_sprite.setRotation(0);
+						spike_sprite.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+					}
+					_window.draw(spike_sprite);
+					break;
 				}
-				_window.draw(spike_sprite);
-				break;
-			}
-			case Cell::Cloud:
-			{
-				sf::Sprite cloud_sprite(cloud_texture);
-				unsigned short x = (i * CELL_SIZE) - (cloud_sprite.getTextureRect().left + (cloud_sprite.getTextureRect().width / 2));
-				unsigned short y = (j * CELL_SIZE) - (cloud_sprite.getTextureRect().top + (cloud_sprite.getTextureRect().height / 2));
+				case Cell::Cloud:
+				{
+					sf::Sprite cloud_sprite(cloud_texture);
+					unsigned short x = (i * CELL_SIZE) - (cloud_sprite.getTextureRect().left + (cloud_sprite.getTextureRect().width / 2));
+					unsigned short y = (j * CELL_SIZE) - (cloud_sprite.getTextureRect().top + (cloud_sprite.getTextureRect().height / 2));
 
-				cloud_sprite.setPosition(x, y);
-				_window.draw(cloud_sprite);
-				break;
-			}
+					cloud_sprite.setPosition(x, y);
+					_window.draw(cloud_sprite);
+					break;
+				}
+				default:
+				{
+					std::cout << "default";
+				}
 			}
 		}
 	}
@@ -106,8 +110,30 @@ void Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(163, 73, 164))
 			{
 				Enemies.emplace_back(std::make_unique<WallEnemy>(i * CELL_SIZE, j * CELL_SIZE));
-				map[i][j] = Cell::Empty;
-				std::cout << "goblic";
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(200, 0, 0))
+			{
+				sf::CircleShape circle;
+				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setRadius(10);
+				circle.setFillColor(sf::Color(200, 0, 0));
+				Powers.emplace_back(circle);
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(0, 200, 0))
+			{
+				sf::CircleShape circle;
+				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setRadius(10);
+				circle.setFillColor(sf::Color(0, 200, 0));
+				Powers.emplace_back(circle);
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(0, 0, 200))
+			{
+				sf::CircleShape circle;
+				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setRadius(10);
+				circle.setFillColor(sf::Color(0, 0, 200));
+				Powers.emplace_back(circle);
 			}
 			else
 			{
@@ -119,9 +145,9 @@ void Map::load_from_file(std::string map_directory)
 
 bool Map::colision(const std::vector<Cell>& cells, sf::FloatRect bounds)
 {
-	for (unsigned short a = std::max<short>(0, floor(bounds.left / CELL_SIZE)); a <= std::min<short>((SCREEN_WIDTH / CELL_SIZE), floor((bounds.left + bounds.width) / CELL_SIZE)); a++)
+	for (unsigned short a = std::max<short>(0, floor(bounds.left / CELL_SIZE)); a <= std::min<short>((map_width / CELL_SIZE), floor((bounds.left + bounds.width) / CELL_SIZE)); a++)
 	{
-		for (unsigned short b = std::max<short>(0, floor(bounds.top / CELL_SIZE)); b <= std::min<short>((SCREEN_HEIGHT / CELL_SIZE), floor((bounds.top + bounds.height) / CELL_SIZE)); b++)
+		for (unsigned short b = std::max<short>(0, floor(bounds.top / CELL_SIZE)); b <= std::min<short>((map_height / CELL_SIZE), floor((bounds.top + bounds.height) / CELL_SIZE)); b++)
 		{
 			if (cells.end() != std::find(cells.begin(), cells.end(), map[a][b]))
 			{

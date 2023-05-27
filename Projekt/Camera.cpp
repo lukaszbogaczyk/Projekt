@@ -15,4 +15,9 @@ void Camera::update(Map& map, Character& character)
 		x = character.x;
 		view.setCenter(x, y);
 	}
+	else
+	{
+		x = 400;
+		view.setCenter(x, y);
+	}
 }

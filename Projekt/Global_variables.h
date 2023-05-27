@@ -19,10 +19,10 @@ const float GRAVITY = 0.2;
 
 enum class Cell		//Enum z nazwami komórek
 {
+	Empty,
 	Brick,
 	Spike,
-	Cloud,
-	Empty
+	Cloud
 };
 
 using mapVector = std::vector<std::array<Cell, SCREEN_HEIGHT / CELL_SIZE>>;		//Macierz zawierajca komórki mapy o wyskokoci 12 i szerokoci n, gdzie n to szerokoœæ mapy/wielkoœæ komórek

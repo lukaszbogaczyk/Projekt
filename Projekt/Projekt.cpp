@@ -15,7 +15,7 @@ int main()
     window.setFramerateLimit(60);   //60 FPS
 
     Map map; //Inicjalizowanie mapy
-    map.load_from_file("Images/mapa.png");   //wczytanie mapy z pliku
+    map.load_from_file("Images/mapa.png"); //wczytanie mapy z pliku
 
 
     Camera camera;
@@ -26,26 +26,7 @@ int main()
 
     std::vector<sf::Sprite> map_sprites;
 
-    std::vector<sf::CircleShape> powers;
     unsigned short lg_timer = 300;
-
-    sf::CircleShape power_up1;
-    power_up1.setPosition(150, 450);
-    power_up1.setRadius(10);
-    power_up1.setFillColor(sf::Color(200, 0, 0));
-    powers.emplace_back(power_up1);
-
-    power_up1.setPosition(200, 300);
-    power_up1.setFillColor(sf::Color(200, 0, 0));
-    powers.emplace_back(power_up1);
-
-    power_up1.setPosition(500, 300);
-    power_up1.setFillColor(sf::Color(0, 0, 200));
-    powers.emplace_back(power_up1);
-
-    power_up1.setPosition(600, 200);
-    power_up1.setFillColor(sf::Color(0, 200, 0));
-    powers.emplace_back(power_up1);
 
 
     while (window.isOpen())
@@ -99,9 +80,8 @@ int main()
 
         map_sprites = map.draw(window); //funkcja draw zwraca vektor z spritami bloków mapy
 
-        for (auto it = powers.begin(); it != powers.end(); it++) {
+        for (auto it = map.Powers.begin(); it != map.Powers.end(); it++) {
             window.draw(*it);
-
         }
         character.draw(window);
         camera.update(map, character);
@@ -124,17 +104,22 @@ int main()
         }
 
         character.change_lives(-1);
-        character.power_ups(powers);
+        character.power_ups(map.Powers);
 
         for (int i = 0; i < map.Enemies.size(); i++)
         {
-            map.Enemies[i]->update(map);
+            map.Enemies[i]->update(map, character);
             map.Enemies[i]->draw(window);
+
+            if (map.Enemies[i]->onMap() == false)
+            {
+                map.Enemies.erase(map.Enemies.begin() + i);
+                std::cout << "erased\n";
+            }
         }
 
         window.display();
     }
-    std::cout << map.Enemies.size();
 
     return 0;
 }

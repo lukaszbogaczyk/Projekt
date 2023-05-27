@@ -2,6 +2,7 @@
 #include "Global_variables.h"
 #include "Map.h"
 #include <SFML/Graphics.hpp>
+#include "WallEnemy.h"
 
 class Character
 {
@@ -29,4 +30,5 @@ public:
 	void change_lives(short change);
 	void power_ups(std::vector<sf::CircleShape>& powers);
 	friend class Camera;
+	friend class WallEnemy;
 };

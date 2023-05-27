@@ -18,14 +18,12 @@ class Map
 	sf::Texture cloud_texture;
 	
 
-
-
-
 public:
 	Map();
 	int map_width;
 	int map_height;
 	std::vector<std::unique_ptr<Enemy>> Enemies;
+	std::vector<sf::CircleShape> Powers;
 
 	std::vector<sf::Sprite> draw(sf::RenderWindow& _window);
 	void load_from_file(std::string map_directory);
