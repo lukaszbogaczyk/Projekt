@@ -1,6 +1,8 @@
 #include "Map.h"
 #include "Global_variables.h"
+#include "WallEnemy.h"
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 Map::Map()
 {	
@@ -101,6 +103,12 @@ void Map::load_from_file(std::string map_directory)
 			{
 				map[i][j] = Cell::Cloud;
 			}
+			else if (map_image.getPixel(i, j) == sf::Color(163, 73, 164))
+			{
+				Enemies.emplace_back(std::make_unique<WallEnemy>(i * CELL_SIZE, j * CELL_SIZE));
+				map[i][j] = Cell::Empty;
+				std::cout << "goblic";
+			}
 			else
 			{
 				map[i][j] = Cell::Empty;
@@ -109,21 +117,18 @@ void Map::load_from_file(std::string map_directory)
 	}
 }
 
-/*
-
-	bool colision(const std::vector<Cell>& cells, sf::FloatRect bounds)
+bool Map::colision(const std::vector<Cell>& cells, sf::FloatRect bounds)
+{
+	for (unsigned short a = std::max<short>(0, floor(bounds.left / CELL_SIZE)); a <= std::min<short>((SCREEN_WIDTH / CELL_SIZE), floor((bounds.left + bounds.width) / CELL_SIZE)); a++)
 	{
-		for (unsigned short a = std::max<short>(0, floor(bounds.left / CELL_SIZE)); a <= std::min<short>((SCREEN_WIDTH / CELL_SIZE), floor((bounds.left + bounds.width) / CELL_SIZE)); a++)
+		for (unsigned short b = std::max<short>(0, floor(bounds.top / CELL_SIZE)); b <= std::min<short>((SCREEN_HEIGHT / CELL_SIZE), floor((bounds.top + bounds.height) / CELL_SIZE)); b++)
 		{
-			for (unsigned short b = std::max<short>(0, floor(bounds.top / CELL_SIZE)); b <= std::min<short>((SCREEN_HEIGHT / CELL_SIZE), floor((bounds.top + bounds.height) / CELL_SIZE)); b++)
+			if (cells.end() != std::find(cells.begin(), cells.end(), map[a][b]))
 			{
-				if (cells.end() != std::find(cells.begin(), cells.end(), map[a][b]))
-				{
-					return true;
-				}
+				return true;
 			}
 		}
-		return false;
 	}
+	return false;
+}
 
-*/

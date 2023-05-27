@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Character.h"
 #include "Camera.h"
+#include <iostream>
 
 int main()
 {
@@ -15,6 +16,7 @@ int main()
 
     Map map; //Inicjalizowanie mapy
     map.load_from_file("Images/mapa.png");   //wczytanie mapy z pliku
+
 
     Camera camera;
 
@@ -94,10 +96,15 @@ int main()
             velocity_y += gravity;
         }
 
-
+        for (int i = 0; i < map.Enemies.size(); i++)
+        {
+            map.Enemies[i]->update(map);
+            map.Enemies[i]->draw(window);
+        }
 
         window.display();
     }
+    std::cout << map.Enemies.size();
 
     return 0;
 }
