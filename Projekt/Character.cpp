@@ -51,13 +51,18 @@ void Character::change_x(float X, std::vector<sf::Sprite> map) {
 
 }
 
-void Character::change_y(float Y, std::vector<sf::Sprite> map) {
+void Character::change_y(float Y, std::vector<sf::Sprite> map, float &vel) {
 	//zmienienie pozycji rect
 	rect.setPosition(x, y + Y);
 	sf::RectangleShape r = rect;
 	//sprawdzanie kolizji rect z blokami mapy
 	if (std::none_of(map.begin(), map.end(), [r](sf::Sprite map_sprite) {return map_sprite.getGlobalBounds().intersects(r.getGlobalBounds());  })) {
 		y += Y;
+	}
+	else {
+		if (vel < 0) {
+			vel = 0;
+		}
 	}
 }
 bool Character::on_ground(std::vector<sf::Sprite> map) {
@@ -90,11 +95,13 @@ void Character::change_lives(short change) {
 	}
 }
 
-void Character::power_ups(std::vector<sf::CircleShape>& powers) {
+bool Character::power_ups(std::vector<sf::CircleShape>& powers) {
 	for (auto it = powers.begin(); it != powers.end(); it++) {
 		if (sprite.getGlobalBounds().intersects(it->getGlobalBounds())) {
-			if (it->getFillColor() == sf::Color(200, 0, 0)) {
+			if (it->getFillColor() == sf::Color(250, 100, 50)) {
 				double_jump = 1;
+				powers.erase(it);
+				it--;
 			}
 			if (it->getFillColor() == sf::Color(0, 0, 200)) {
 				low_gravity = 1;
@@ -106,7 +113,11 @@ void Character::power_ups(std::vector<sf::CircleShape>& powers) {
 				powers.erase(it);
 				it--;
 			}
+			if (it->getFillColor() == sf::Color(200, 0, 0)) {
+				return 1;
+			}
 		}
 
 	}
+	return 0;
 }
