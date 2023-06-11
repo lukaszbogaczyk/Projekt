@@ -15,7 +15,7 @@ int main()
     window.setFramerateLimit(60);   //60 FPS
 
     Map map; //Inicjalizowanie mapy
-    map.load_from_file("Images/mapa3.png"); //wczytanie mapy z pliku
+    map.load_from_file("Images/mapa2.png"); //wczytanie mapy z pliku
 
 
     Camera camera;
