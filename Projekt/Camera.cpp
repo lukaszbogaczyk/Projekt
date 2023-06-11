@@ -3,7 +3,7 @@
 Camera::Camera()
 {
 	view.setCenter(sf::Vector2f(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f));
-	view.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT+400));
+	view.setSize(sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
 	x = SCREEN_WIDTH * 0.5f;
 	y = SCREEN_HEIGHT * 0.5f;
 }

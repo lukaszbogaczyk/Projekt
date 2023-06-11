@@ -53,6 +53,11 @@ std::vector<sf::Sprite> Map::draw(sf::RenderWindow& _window)
 						spike_sprite.setRotation(270);
 						spike_sprite.setPosition(i * CELL_SIZE, (j + 1) * CELL_SIZE);
 					}
+					else if (map[i][j - 1] == Cell::Brick)
+					{
+						spike_sprite.setRotation(180);
+						spike_sprite.setPosition((i + 1) * CELL_SIZE, (j + 1) * CELL_SIZE);
+					}
 					else
 					{
 						spike_sprite.setRotation(0);
@@ -165,4 +170,3 @@ bool Map::colision(const std::vector<Cell>& cells, sf::FloatRect bounds)
 	}
 	return false;
 }
-

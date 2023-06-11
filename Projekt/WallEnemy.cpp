@@ -33,9 +33,7 @@ void WallEnemy::update(Map& _map, Character& _character)
 
 	if (alive)
 	{
-		sf::FloatRect rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE + 2);
-
-		bool colision_with_oder_enemy = false;
+		//bool colision_with_oder_enemy = false;
 		for (int i = 0; i < _map.Enemies.size(); i++)
 		{
 			WallEnemy* enemy = dynamic_cast<WallEnemy*>(_map.Enemies[i].get());
@@ -45,7 +43,8 @@ void WallEnemy::update(Map& _map, Character& _character)
 			}
 		}
 
-		if (_map.colision({ Cell::Brick, Cell::Spike }, rect))
+		sf::FloatRect rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE + 2);
+		if (_map.colision({ Cell::Brick, Cell::Spike}, rect))
 		{
 			y_velocity = 0;
 			rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE - 2);
