@@ -83,16 +83,7 @@ void Character::set_xy(float X, float Y) {
 }
 
 void Character::change_lives(const short change) {
-	if (change > 0) {
-		lives += change;
-	}
-	else if (change < 0) {
-		if (sprite.getGlobalBounds().top > SCREEN_HEIGHT) {
-			lives += change;
-			this->set_xy(0, 0);
-			std::cout << lives << std::endl;
-		}
-	}
+	
 }
 
 bool Character::power_ups(std::vector<sf::CircleShape>& powers) {

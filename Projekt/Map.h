@@ -16,6 +16,9 @@ class Map
 	sf::Texture brick_texture;
 	sf::Texture spike_texture;
 	sf::Texture cloud_texture;
+	sf::Texture finish_flag_texture;
+	sf::Texture checkpoint_texture;
+	
 	
 
 public:

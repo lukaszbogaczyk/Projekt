@@ -17,6 +17,14 @@ Map::Map()
 	//cloud
 	cloud_texture.loadFromFile("Images/cloud.png");
 	cloud_texture.setSmooth(true);
+
+	//finish_flag
+	finish_flag_texture.loadFromFile("Images/finish_flag.png");
+	finish_flag_texture.setSmooth(true);
+
+	//checkpoint
+	checkpoint_texture.loadFromFile("Images/checkpoint.png");
+	checkpoint_texture.setSmooth(true);
 }
 
 std::vector<sf::Sprite> Map::draw(sf::RenderWindow& _window)
@@ -71,6 +79,22 @@ std::vector<sf::Sprite> Map::draw(sf::RenderWindow& _window)
 					_window.draw(cloud_sprite);
 					break;
 				}
+				case Cell::Finish_flag:
+				{
+					sf::Sprite finish_flag_sprite(finish_flag_texture);
+					finish_flag_sprite.setScale(0.16,0.3);
+					finish_flag_sprite.setPosition(i * CELL_SIZE, j * CELL_SIZE-20);
+					_window.draw(finish_flag_sprite);
+					break;
+				}
+				case Cell::Checkpoint:
+				{
+					sf::Sprite checkpoint_sprite(checkpoint_texture);
+					checkpoint_sprite.setScale(0.16, 0.3);
+					checkpoint_sprite.setPosition(i * CELL_SIZE, j * CELL_SIZE-20);
+					_window.draw(checkpoint_sprite);
+					break;
+				}
 				default:
 				{
 					std::cout << "default";
@@ -106,6 +130,14 @@ void Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(0, 162, 232))
 			{
 				map[i][j] = Cell::Cloud;
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(127, 127, 127))
+			{
+				map[i][j] = Cell::Finish_flag;
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(195, 195, 195))
+			{
+				map[i][j] = Cell::Checkpoint;
 			}
 			else if (map_image.getPixel(i, j) == sf::Color(163, 73, 164))
 			{
