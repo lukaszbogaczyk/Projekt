@@ -15,7 +15,7 @@ int main()
     window.setFramerateLimit(60);   //60 FPS
 
     Map map; //Inicjalizowanie mapy
-    map.load_from_file("Images/mapa2.png"); //wczytanie mapy z pliku
+    map.load_from_file("Images/mapa3.png"); //wczytanie mapy z pliku
 
 
     Camera camera;
@@ -31,6 +31,7 @@ int main()
     unsigned short lg_timer = 300;
 
     bool dj = 0;
+    character.set_xy(50, 500);
     while (window.isOpen())
     {
         if (jump && velocity_y > -PLAYER_JUMP_VELOCITY) {
@@ -48,7 +49,7 @@ int main()
             if (event.type == sf::Event::KeyPressed)
             {
                 if (event.key.code == sf::Keyboard::Escape)
-                {
+                {  
                     window.close();
                 }
                 if (event.key.code == sf::Keyboard::Left)//zmienianie prędkości postaci

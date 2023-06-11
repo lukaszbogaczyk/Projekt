@@ -207,3 +207,6 @@ bool Map::colision(const std::vector<Cell>& cells, sf::FloatRect bounds)
 	}
 	return false;
 }
+
+
+////
