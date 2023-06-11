@@ -100,6 +100,19 @@ int main()
         window.clear(sf::Color(29, 210, 231));
         window.setView(camera.view);
 
+        
+        for (int i = 0; i < map.Enemies.size(); i++)    //pętla przeciwników
+        {
+            map.Enemies[i]->update(map, character);
+            map.Enemies[i]->draw(window);
+
+            if (map.Enemies[i]->onMap() == false)
+            {
+                map.Enemies.erase(map.Enemies.begin() + i);
+                std::cout << "erased\n";
+            }
+        }
+
 
         map_sprites = map.draw(window); //funkcja draw zwraca vektor z spritami bloków mapy
 
@@ -107,6 +120,7 @@ int main()
             window.draw(*it);
         }
         character.draw(window);
+        character.update(map, window, camera);
         camera.update(map, character);
 
 
@@ -125,26 +139,19 @@ int main()
             }
             else if (velocity_y < MAX_PLAYER_FALL_VELOCITY) {   //grawitacja
                 velocity_y += GRAVITY;
+                character.y_velocity = 1;
+            }
+            else
+            {
+                character.y_velocity = 0;
             }
         }
 
-        character.change_lives(-1);
         dj = character.power_ups(map.Powers);
 
-        for (int i = 0; i < map.Enemies.size(); i++)
-        {
-            map.Enemies[i]->update(map, character);
-            map.Enemies[i]->draw(window);
-
-            if (map.Enemies[i]->onMap() == false)
-            {
-                map.Enemies.erase(map.Enemies.begin() + i);
-                std::cout << "erased\n";
-            }
-        }
+ 
 
         window.display();
-        std::cout << map.Enemies.size() << std::endl;
     }
 
     return 0;

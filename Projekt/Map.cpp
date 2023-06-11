@@ -3,6 +3,7 @@
 #include "WallEnemy.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "UnkillableEnemy.h"
 
 Map::Map()
 {	
@@ -147,6 +148,10 @@ void Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(163, 73, 164))
 			{
 				Enemies.emplace_back(std::make_unique<WallEnemy>(i * CELL_SIZE, j * CELL_SIZE));
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(255, 255, 0))
+			{
+				Enemies.emplace_back(std::make_unique<UnkillableEnemy>(i * CELL_SIZE, j * CELL_SIZE));
 			}
 			else if (map_image.getPixel(i, j) == sf::Color(200, 0, 0))
 			{

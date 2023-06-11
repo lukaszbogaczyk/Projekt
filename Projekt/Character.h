@@ -3,7 +3,9 @@
 #include "Map.h"
 #include <SFML/Graphics.hpp>
 #include "WallEnemy.h"
+#include "Camera.h"
 
+class Camera;
 class Character
 {
 	sf::Texture texture;
@@ -13,6 +15,7 @@ class Character
 	unsigned short lives;
 	bool double_jump;
 	bool low_gravity;
+	sf::Font font;
 
 public:
 	Character();
@@ -28,8 +31,10 @@ public:
 	void set_double_jump(bool change_double_jump);
 	bool get_low_gravity();
 	void set_low_gravity(bool change_low_gravity);
-	void change_lives(short change);
+	void change_lives(const short &change);
 	bool power_ups(std::vector<sf::CircleShape>& powers);
+	void update(Map& _map, sf::RenderWindow& _window, Camera& _camera);
 	friend class Camera;
 	friend class WallEnemy;
+	friend class UnkillableEnemy;
 };

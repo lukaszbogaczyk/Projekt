@@ -1,9 +1,12 @@
 #include "Character.h"
 #include "Global_variables.h"
 #include "Map.h"
+#include "Camera.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <algorithm>
+#include <string>
+#include <sstream>
 
 Character::Character() {
 	texture.loadFromFile("Images/guy.png");//wczytanie z pliku
@@ -13,6 +16,7 @@ Character::Character() {
 	double_jump = 0;
 	low_gravity = 0;
 	rect.setSize(sf::Vector2f(CELL_SIZE - 5, CELL_SIZE - 5));
+	font.loadFromFile("Fonts/Arial.ttf");
 }
 
 bool Character::get_double_jump() {
@@ -41,6 +45,7 @@ void Character::draw(sf::RenderWindow& _window) {
 
 }
 void Character::change_x(float X, std::vector<sf::Sprite> map) {
+	std::cout << sprite.getPosition().x << " | " << sprite.getPosition().y << std::endl;
 	//zmienienie pozycji rect
 	rect.setPosition(x + X, y);
 	sf::RectangleShape r = rect;
@@ -82,8 +87,15 @@ void Character::set_xy(float X, float Y) {
 	y = Y;
 }
 
-void Character::change_lives(const short change) {
-	
+void Character::change_lives(const short &change) 
+{
+	lives += change;
+	if (change < 0)
+	{
+		x = 0;
+		y = 0;
+		sprite.setPosition(x, y);
+	}
 }
 
 bool Character::power_ups(std::vector<sf::CircleShape>& powers) {
@@ -111,4 +123,35 @@ bool Character::power_ups(std::vector<sf::CircleShape>& powers) {
 
 	}
 	return 0;
+}
+
+void Character::update(Map& _map, sf::RenderWindow& _window, Camera& _camera)
+{
+	if (y >= _map.map_height)
+	{
+		change_lives(-1);
+	}
+
+	sf::FloatRect rect = sprite.getGlobalBounds();
+	if (_map.colision({ Cell::Spike }, rect))
+	{
+		change_lives(-1);
+	}
+
+	std::wstringstream ss;
+	ss << L"Iloœæ ¿yæ: " << lives;
+	std::wstring message = ss.str();
+	sf::Text text;
+	text.setFont(font);
+	text.setString(message);
+	text.setCharacterSize(30);
+	text.setFillColor(sf::Color::Red);
+	text.setOutlineColor(sf::Color::Black);
+	text.setOutlineThickness(5);
+
+	int x = floor(_camera.x + 220);
+	int y = floor(_camera.y - 270);
+
+	text.setPosition(x, y);
+	_window.draw(text);
 }

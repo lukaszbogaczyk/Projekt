@@ -138,6 +138,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Projekt.cpp" />
+    <ClCompile Include="UnkillableEnemy.cpp" />
     <ClCompile Include="WallEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Global_variables.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="UnkillableEnemy.h" />
     <ClInclude Include="WallEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

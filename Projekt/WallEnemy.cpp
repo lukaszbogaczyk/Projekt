@@ -1,4 +1,5 @@
 #include "WallEnemy.h"
+#include "UnkillableEnemy.h"
 #include <iostream>
 #include <algorithm>
 
@@ -23,7 +24,8 @@ void WallEnemy::update(Map& _map, Character& _character)
 	if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()) && _character.y_velocity != 0)
 	{
 		alive = false;
-		//sprite.setRotation(180);
+		sprite.setOrigin(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+		sprite.setRotation(180);
 		//std::cout << "alive:false";
 	}
 	else if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
@@ -36,10 +38,19 @@ void WallEnemy::update(Map& _map, Character& _character)
 		//bool colision_with_oder_enemy = false;
 		for (int i = 0; i < _map.Enemies.size(); i++)
 		{
-			WallEnemy* enemy = dynamic_cast<WallEnemy*>(_map.Enemies[i].get());
-			if (this != enemy && sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
+			if (WallEnemy* enemy = dynamic_cast<WallEnemy*>(_map.Enemies[i].get()))
 			{
-				direction *= -1;
+				if (this != enemy && sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
+				{
+					direction *= -1;
+				}
+			}
+			else if (UnkillableEnemy* enemy = dynamic_cast<UnkillableEnemy*>(_map.Enemies[i].get()))
+			{
+				if (sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
+				{
+					direction *= -1;
+				}
 			}
 		}
 

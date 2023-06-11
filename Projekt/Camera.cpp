@@ -16,11 +16,21 @@ void Camera::update(Map& map, Character& character)
 	}
 	else if(character.x <= SCREEN_WIDTH / 2)
 	{
-		x = SCREEN_WIDTH/2;	
+		x = SCREEN_WIDTH / 2;	
 	}
 	else
 	{
 		x = map.map_width - (SCREEN_WIDTH / 2);
 	}
+
+	if ((character.y) + (character.sprite.getGlobalBounds().height / 2) <= (map.map_height) - ((400) + (character.sprite.getGlobalBounds().height / 2)))
+	{
+		y = character.y + SCREEN_HEIGHT / 4;
+	}
+	else
+	{
+		y = (map.map_height) - (SCREEN_HEIGHT / 2);
+	}
+
 	view.setCenter(x, y);
 }
