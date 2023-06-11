@@ -135,6 +135,14 @@ void Map::load_from_file(std::string map_directory)
 				circle.setFillColor(sf::Color(0, 0, 200));
 				Powers.emplace_back(circle);
 			}
+			else if (map_image.getPixel(i, j) == sf::Color(250, 100, 50))
+			{
+				sf::CircleShape circle;
+				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setRadius(10);
+				circle.setFillColor(sf::Color(250, 100, 50));
+				Powers.emplace_back(circle);
+			}
 			else
 			{
 				map[i][j] = Cell::Empty;

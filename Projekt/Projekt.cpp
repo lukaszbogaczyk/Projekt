@@ -15,7 +15,7 @@ int main()
     window.setFramerateLimit(60);   //60 FPS
 
     Map map; //Inicjalizowanie mapy
-    map.load_from_file("Images/mapa.png"); //wczytanie mapy z pliku
+    map.load_from_file("Images/mapa1.png"); //wczytanie mapy z pliku
 
 
     Camera camera;
@@ -28,7 +28,7 @@ int main()
 
     unsigned short lg_timer = 300;
 
-
+    bool dj = 0;
     while (window.isOpen())
     {
         sf::Event event;
@@ -55,6 +55,9 @@ int main()
                 if (event.key.code == sf::Keyboard::Up)
                 {
                     if (character.on_ground(map_sprites)) {
+                        velocity_y = -PLAYER_JUMP_VELOCITY;
+                    }
+                    else if (dj) {
                         velocity_y = -PLAYER_JUMP_VELOCITY;
                     }
                     else if (character.get_double_jump()) {
@@ -91,7 +94,7 @@ int main()
 
 
         character.change_x(velocity_x, map_sprites);//zmiana pozycji
-        character.change_y(velocity_y, map_sprites);
+        character.change_y(velocity_y, map_sprites,velocity_y);
 
         if (velocity_y < MAX_PLAYER_FALL_VELOCITY && character.get_low_gravity()) {   //grawitacja
             velocity_y += GRAVITY / 2;
@@ -106,7 +109,7 @@ int main()
         }
 
         character.change_lives(-1);
-        character.power_ups(map.Powers);
+        dj = character.power_ups(map.Powers);
 
         for (int i = 0; i < map.Enemies.size(); i++)
         {
