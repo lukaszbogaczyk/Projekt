@@ -8,14 +8,11 @@
 int main()
 {
 
-
-
-
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "projekt");
     window.setFramerateLimit(60);   //60 FPS
 
     Map map; //Inicjalizowanie mapy
-    map.load_from_file("Images/mapa2.png"); //wczytanie mapy z pliku
+    map.load_from_file("Images/mapa3.png"); //wczytanie mapy z pliku
 
 
     Camera camera;
@@ -31,7 +28,7 @@ int main()
     unsigned short lg_timer = 300;
 
     bool dj = 0;
-    character.set_xy(50, 500);
+    character.set_xy(100, 502);
     while (window.isOpen())
     {
         if (jump && velocity_y > -PLAYER_JUMP_VELOCITY) {
@@ -140,11 +137,6 @@ int main()
             }
             else if (velocity_y < MAX_PLAYER_FALL_VELOCITY) {   //grawitacja
                 velocity_y += GRAVITY;
-                character.y_velocity = 1;
-            }
-            else
-            {
-                character.y_velocity = 0;
             }
         }
 

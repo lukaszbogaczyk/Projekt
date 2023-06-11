@@ -21,12 +21,17 @@ void WallEnemy::draw(sf::RenderWindow& _window)
 
 void WallEnemy::update(Map& _map, Character& _character)
 {
-	if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()) && _character.y_velocity != 0)
+	sf::FloatRect characterRect = _character.sprite.getGlobalBounds();
+	characterRect.top += 40;
+	characterRect.height = 20;
+	characterRect.left += 10;
+	characterRect.width -= 20;
+
+	if (sprite.getGlobalBounds().intersects(characterRect))
 	{
 		alive = false;
 		sprite.setOrigin(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 		sprite.setRotation(180);
-		//std::cout << "alive:false";
 	}
 	else if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
 	{
@@ -35,7 +40,7 @@ void WallEnemy::update(Map& _map, Character& _character)
 
 	if (alive)
 	{
-		//bool colision_with_oder_enemy = false;
+
 		for (int i = 0; i < _map.Enemies.size(); i++)
 		{
 			if (WallEnemy* enemy = dynamic_cast<WallEnemy*>(_map.Enemies[i].get()))

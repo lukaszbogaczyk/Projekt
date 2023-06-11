@@ -92,8 +92,8 @@ void Character::change_lives(const short &change)
 	lives += change;
 	if (change < 0)
 	{
-		x = 0;
-		y = 0;
+		x = 100;
+		y = 502;
 		sprite.setPosition(x, y);
 	}
 }

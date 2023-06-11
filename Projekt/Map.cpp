@@ -7,7 +7,7 @@
 
 Map::Map()
 {	
-	//brick
+	//brickn
 	brick_texture.loadFromFile("Images/brick.png");
 	brick_texture.setSmooth(true);
 
@@ -209,4 +209,4 @@ bool Map::colision(const std::vector<Cell>& cells, sf::FloatRect bounds)
 }
 
 
-////
+//200 191 231 lavender spwan
