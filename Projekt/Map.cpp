@@ -85,7 +85,7 @@ void Map::load_from_file(std::string map_directory)
 {
 	sf::Image map_image;
 	map_image.loadFromFile(map_directory);	//wczytanie mapy z pliku
-	map.resize(map_image.getSize().x);	//zmiana wielkoci macierzy mapy do szerokoci mapy pobranej z pliku
+	map.resize(map_image.getSize().x, std::vector<Cell>(map_image.getSize().y));	//zmiana wielkoci macierzy mapy do szerokoci mapy pobranej z pliku
 
 	map_height = 50 * map_image.getSize().y;
 	map_width = 50 * map_image.getSize().x;

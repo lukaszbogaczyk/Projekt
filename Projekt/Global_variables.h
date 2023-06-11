@@ -25,4 +25,4 @@ enum class Cell		//Enum z nazwami komórek
 	Cloud
 };
 
-using mapVector = std::vector<std::array<Cell, SCREEN_HEIGHT / CELL_SIZE>>;		//Macierz zawierajca komórki mapy o wyskokoci 12 i szerokoci n, gdzie n to szerokoœæ mapy/wielkoœæ komórek
+using mapVector = std::vector<std::vector<Cell>>;		//Macierz zawierajca komórki mapy o wyskokoci 12 i szerokoci n, gdzie n to szerokoœæ mapy/wielkoœæ komórek

@@ -77,7 +77,7 @@ void Character::set_xy(float X, float Y) {
 	y = Y;
 }
 
-void Character::change_lives(short change) {
+void Character::change_lives(const short change) {
 	if (change > 0) {
 		lives += change;
 	}

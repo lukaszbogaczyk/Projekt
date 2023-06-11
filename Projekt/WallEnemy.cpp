@@ -20,11 +20,15 @@ void WallEnemy::draw(sf::RenderWindow& _window)
 
 void WallEnemy::update(Map& _map, Character& _character)
 {
-	if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
+	if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()) && _character.y_velocity != 0)
 	{
 		alive = false;
 		//sprite.setRotation(180);
 		//std::cout << "alive:false";
+	}
+	else if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
+	{
+		_character.change_lives(-1);
 	}
 
 	if (alive)

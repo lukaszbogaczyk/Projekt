@@ -59,6 +59,7 @@ int main()
                     }
                     else if (character.get_double_jump()) {
                         velocity_y = -PLAYER_JUMP_VELOCITY;
+                        
                         character.set_double_jump(0);
                     }
                 }
@@ -73,6 +74,7 @@ int main()
             }
 
         }
+        character.y_velocity = 0;
 
         window.clear(sf::Color(29, 210, 231));
         window.setView(camera.view);
@@ -119,6 +121,7 @@ int main()
         }
 
         window.display();
+        std::cout << map.Enemies.size() << std::endl;
     }
 
     return 0;
