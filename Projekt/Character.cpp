@@ -13,25 +13,20 @@ Character::Character() {
 	x = 0;
 	y = 0;
 	lives = 3;
-	double_jump = 0;
+	double_jump_orange = 0;
 	low_gravity = 0;
 	rect.setSize(sf::Vector2f(CELL_SIZE - 5, CELL_SIZE - 5));
 	font.loadFromFile("Fonts/Arial.ttf");
+	velocity_x = 0;
+	velocity_y = 0;
+	lg_timer = 300;
+	jump = 0;
+	end_jump = 1;
+	double_jump_red = 0;
+
 }
 
-bool Character::get_double_jump() {
-	return double_jump;
-}
-void Character::set_double_jump(bool change_double_jump) {
-	double_jump = change_double_jump;
-}
 
-bool Character::get_low_gravity() {
-	return low_gravity;
-}
-void Character::set_low_gravity(bool change_low_gravity) {
-	low_gravity = change_low_gravity;
-}
 
 void Character::draw(sf::RenderWindow& _window) {
 
@@ -72,7 +67,7 @@ void Character::change_y(float Y, std::vector<sf::Sprite> map, float &vel) {
 }
 bool Character::on_ground(std::vector<sf::Sprite> map) {
 	//zmienienie pozycji rect
-	rect.setPosition(x, y + 6);
+	rect.setPosition(x, y + 10);
 	sf::RectangleShape r = rect;
 	//sprawdzanie kolizji rect z blokami mapy
 	if (std::any_of(map.begin(), map.end(), [r](sf::Sprite map_sprite) {return map_sprite.getGlobalBounds().intersects(r.getGlobalBounds());  })) {
@@ -102,7 +97,7 @@ bool Character::power_ups(std::vector<sf::CircleShape>& powers) {
 	for (auto it = powers.begin(); it != powers.end(); it++) {
 		if (sprite.getGlobalBounds().intersects(it->getGlobalBounds())) {
 			if (it->getFillColor() == sf::Color(250, 100, 50)) {
-				double_jump = 1;
+				double_jump_orange = 1;
 				powers.erase(it);
 				it--;
 			}
@@ -154,4 +149,65 @@ void Character::update(Map& _map, sf::RenderWindow& _window, Camera& _camera)
 
 	text.setPosition(x, y);
 	_window.draw(text);
+}
+
+
+
+void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
+	if (jump && velocity_y > -PLAYER_JUMP_VELOCITY) {
+		velocity_y += -PLAYER_JUMP_VELOCITY / 8;
+		if (velocity_y <= -PLAYER_JUMP_VELOCITY)
+			jump = 0;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		velocity_x = -PLAYER_X_VELOCITY;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		velocity_x = PLAYER_X_VELOCITY;
+	}
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		velocity_x = 0;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && end_jump) {
+		if (this->on_ground(map_sprites)) {
+			velocity_y += -PLAYER_JUMP_VELOCITY / 2;
+			jump = 1;
+			end_jump = 0;
+		}
+		else if (double_jump_red) {
+			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
+			jump = 1;
+			end_jump = 0;
+		}
+		else if (double_jump_orange) {
+			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
+			jump = 1;
+			end_jump = 0;
+			double_jump_orange = 0;
+		}
+	}
+	else {
+		jump = 0;
+		end_jump = 1;
+	}
+
+	this->change_x(velocity_x, map_sprites);//zmiana pozycji
+	this->change_y(velocity_y, map_sprites, velocity_y);
+
+	if (!jump) {
+		if (velocity_y < MAX_PLAYER_FALL_VELOCITY && low_gravity) {   //grawitacja
+			velocity_y += GRAVITY / 2;
+			lg_timer--;
+			if (lg_timer == 0) {
+				low_gravity=0;
+				lg_timer = 300;
+			}
+		}
+		else if (velocity_y < MAX_PLAYER_FALL_VELOCITY) {   //grawitacja
+			velocity_y += GRAVITY;
+		}
+	}
+
+	double_jump_red = dj;
 }
