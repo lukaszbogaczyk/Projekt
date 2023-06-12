@@ -8,7 +8,7 @@ const unsigned short SCREEN_WIDTH = 800;	//Szerokoœæ ekranu
 const unsigned short SCREEN_HEIGHT = 600;	//Wysokoœæ ekranu
 const unsigned short CELL_SIZE = 50;		//Wielkoœæ komórek 50x50
 const unsigned short PLAYER_X_VELOCITY = 3;
-const float PLAYER_JUMP_VELOCITY = 7;
+const float PLAYER_JUMP_VELOCITY = 7.2;
 const unsigned short MAX_PLAYER_FALL_VELOCITY = 5;
 const float GRAVITY = 0.2;
 

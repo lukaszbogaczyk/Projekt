@@ -8,7 +8,7 @@
 
 void Game::update(sf::RenderWindow& window)
 {
-    unsigned short mapNumber = 1;
+    unsigned short mapNumber = 2;
     const unsigned short numberOfMaps = 3;  //iloœæ map
     std::string mapName = "";
 
@@ -92,7 +92,7 @@ void Game::update(sf::RenderWindow& window)
                 if (map.Enemies[i]->onMap() == false)
                 {
                     map.Enemies.erase(map.Enemies.begin() + i);
-                    std::cout << "erased\n";
+                    
                 }
             }
 

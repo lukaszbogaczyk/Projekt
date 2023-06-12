@@ -103,7 +103,6 @@ std::vector<sf::Sprite> Map::draw(sf::RenderWindow& _window)
 				}
 				default:
 				{
-					std::cout << "default";
 				}
 			}
 		}
