@@ -14,7 +14,7 @@ Character::Character() {
 	texture.loadFromFile("Images/guy.png");//wczytanie z pliku
 	x = 0;
 	y = 0;
-	lives = 3;
+	lives = 10;
 	double_jump_orange = 0;
 	low_gravity = 0;
 	rect.setSize(sf::Vector2f(CELL_SIZE - 5, CELL_SIZE - 5));
@@ -224,7 +224,7 @@ void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		velocity_x = 0;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && end_jump) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&!jump) {
 		if (this->on_ground(map_sprites)) {
 			velocity_y += -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
@@ -236,7 +236,7 @@ void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
 			jump = 1;
 			end_jump = 0;
 		}
-		else if (double_jump_orange) {
+		else if (double_jump_orange && end_jump) {
 			velocity_y = 0;
 			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
@@ -265,6 +265,6 @@ void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
 			velocity_y += GRAVITY;
 		}
 	}
-
+	std::cout << double_jump_orange << " " << double_jump_red << std::endl;
 	double_jump_red = dj;
 }
