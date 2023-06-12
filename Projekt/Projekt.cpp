@@ -16,6 +16,7 @@ int main()
     sf::Music music;
     music.openFromFile("Music/music.ogg");
     music.setLoop(true);
+    music.setVolume(30.0f);
     music.play();
     
 
