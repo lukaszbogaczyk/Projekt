@@ -27,19 +27,20 @@ void WallEnemy::update(Map& _map, Character& _character)
 	characterRect.left += 10;
 	characterRect.width -= 20;
 
-	if (sprite.getGlobalBounds().intersects(characterRect))
-	{
-		alive = false;
-		sprite.setOrigin(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
-		sprite.setRotation(180);
-	}
-	else if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
-	{
-		_character.change_lives(-1);
-	}
 
 	if (alive)
 	{
+
+		if (sprite.getGlobalBounds().intersects(characterRect))
+		{
+			alive = false;
+			sprite.setOrigin(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
+			sprite.setRotation(180);
+		}
+		else if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
+		{
+			_character.change_lives(-1);
+		}
 
 		for (int i = 0; i < _map.Enemies.size(); i++)
 		{

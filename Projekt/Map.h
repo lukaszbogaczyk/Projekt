@@ -29,6 +29,6 @@ public:
 	std::vector<sf::CircleShape> Powers;
 
 	std::vector<sf::Sprite> draw(sf::RenderWindow& _window);
-	void load_from_file(std::string map_directory);
+	sf::Vector2f load_from_file(std::string map_directory);
 	bool colision(const std::vector<Cell>& cells, sf::FloatRect bounds);
 };

@@ -136,7 +136,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Projekt.cpp" />
     <ClCompile Include="UnkillableEnemy.cpp" />
     <ClCompile Include="WallEnemy.cpp" />
@@ -145,8 +147,10 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Global_variables.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="UnkillableEnemy.h" />
     <ClInclude Include="WallEnemy.h" />
   </ItemGroup>

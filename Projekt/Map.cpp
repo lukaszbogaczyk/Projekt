@@ -111,7 +111,7 @@ std::vector<sf::Sprite> Map::draw(sf::RenderWindow& _window)
 	return sprites;
 }
 
-void Map::load_from_file(std::string map_directory)
+sf::Vector2f Map::load_from_file(std::string map_directory)
 {
 	sf::Image map_image;
 	map_image.loadFromFile(map_directory);	//wczytanie mapy z pliku
@@ -120,6 +120,7 @@ void Map::load_from_file(std::string map_directory)
 	map_height = 50 * map_image.getSize().y;
 	map_width = 50 * map_image.getSize().x;
 
+	sf::Vector2f returnValue(0,0);
 
 	for (unsigned short i = 0; i < map.size(); i++)
 	{
@@ -145,13 +146,20 @@ void Map::load_from_file(std::string map_directory)
 			{
 				map[i][j] = Cell::Checkpoint;
 			}
-			else if (map_image.getPixel(i, j) == sf::Color(163, 73, 164))
+			else if (map_image.getPixel(i, j) == sf::Color(255, 174, 201))	//spawn
+			{
+				returnValue = sf::Vector2f(i * CELL_SIZE, j * CELL_SIZE);
+				map[i][j] = Cell::Empty;
+			}
+			else if (map_image.getPixel(i, j) == sf::Color(163, 73, 164))	//WallEnemy
 			{
 				Enemies.emplace_back(std::make_unique<WallEnemy>(i * CELL_SIZE, j * CELL_SIZE));
+				map[i][j] = Cell::Empty;
 			}
-			else if (map_image.getPixel(i, j) == sf::Color(255, 255, 0))
+			else if (map_image.getPixel(i, j) == sf::Color(255, 255, 0))	//UnkillableEnemy
 			{
-				Enemies.emplace_back(std::make_unique<UnkillableEnemy>(i * CELL_SIZE, j * CELL_SIZE));
+				Enemies.emplace_back(std::make_unique<UnkillableEnemy>(i * CELL_SIZE, j * CELL_SIZE));	
+				map[i][j] = Cell::Empty;
 			}
 			else if (map_image.getPixel(i, j) == sf::Color(200, 0, 0))
 			{
@@ -160,6 +168,7 @@ void Map::load_from_file(std::string map_directory)
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(200, 0, 0));
 				Powers.emplace_back(circle);
+				map[i][j] = Cell::Empty;
 			}
 			else if (map_image.getPixel(i, j) == sf::Color(0, 200, 0))
 			{
@@ -168,6 +177,7 @@ void Map::load_from_file(std::string map_directory)
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(0, 200, 0));
 				Powers.emplace_back(circle);
+				map[i][j] = Cell::Empty;
 			}
 			else if (map_image.getPixel(i, j) == sf::Color(0, 0, 200))
 			{
@@ -176,6 +186,7 @@ void Map::load_from_file(std::string map_directory)
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(0, 0, 200));
 				Powers.emplace_back(circle);
+				map[i][j] = Cell::Empty;
 			}
 			else if (map_image.getPixel(i, j) == sf::Color(250, 100, 50))
 			{
@@ -184,6 +195,7 @@ void Map::load_from_file(std::string map_directory)
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(250, 100, 50));
 				Powers.emplace_back(circle);
+				map[i][j] = Cell::Empty;
 			}
 			else
 			{
@@ -191,6 +203,7 @@ void Map::load_from_file(std::string map_directory)
 			}
 		}
 	}
+	return returnValue;
 }
 
 bool Map::colision(const std::vector<Cell>& cells, sf::FloatRect bounds)

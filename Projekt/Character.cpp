@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <iomanip>
 
 Character::Character() {
 	texture.loadFromFile("Images/guy.png");//wczytanie z pliku
@@ -87,14 +88,23 @@ void Character::set_xy(float X, float Y) {
 	y = Y;
 }
 
+void Character::set_xy(const sf::Vector2f& _vect)
+{
+	x = _vect.x;
+	y = _vect.y;
+}
+
+unsigned short Character::getLives() const
+{
+	return lives;
+}
+
 void Character::change_lives(const short &change) 
 {
 	lives += change;
 	if (change < 0)
 	{
-		x = 100;
-		y = 502;
-		sprite.setPosition(x, y);
+		respawn = true;
 	}
 }
 
@@ -138,9 +148,32 @@ void Character::update(Map& _map, sf::RenderWindow& _window, Camera& _camera)
 		change_lives(-1);
 	}
 
-	std::wstringstream ss;
-	ss << L"Iloœæ ¿yæ: " << lives;
-	std::wstring message = ss.str();
+	if ((_map.colision({ Cell::Checkpoint }, rect)) && checkpoint == true)
+	{
+		respawnPosition = sf::Vector2f(x, y);
+		checkpoint = false;
+	}
+	else
+	{
+		checkTime++;
+		if (checkTime >= 360)
+		{
+			checkpoint = true;
+			checkTime = 0;
+		}
+
+	}
+
+	if (_map.colision({ Cell::Finish_flag }, rect))
+	{
+		nextRound = true;
+	}
+
+
+	//¯ycia
+	std::wstringstream ws;
+	ws << L"Iloœæ ¿yæ: " << lives;
+	std::wstring message = ws.str();
 	sf::Text text;
 	text.setFont(font);
 	text.setString(message);
@@ -151,6 +184,25 @@ void Character::update(Map& _map, sf::RenderWindow& _window, Camera& _camera)
 
 	int x = floor(_camera.x + 220);
 	int y = floor(_camera.y - 270);
+
+	text.setPosition(x, y);
+	_window.draw(text);
+
+
+	//Czas
+	time += clock.restart();
+	std::ostringstream oss;
+	oss << std::fixed << std::setprecision(3) << time.asSeconds();
+	std::string timeString = "Czas: " + oss.str();
+
+	text.setString(timeString);
+	text.setCharacterSize(30);
+	text.setFillColor(sf::Color::White);
+	text.setOutlineColor(sf::Color::Black);
+	text.setOutlineThickness(5);
+
+	x = floor(_camera.x-40);
+	y = floor(_camera.y - 280);
 
 	text.setPosition(x, y);
 	_window.draw(text);
