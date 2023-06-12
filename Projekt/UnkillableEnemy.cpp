@@ -31,14 +31,36 @@ void UnkillableEnemy::update(Map& _map, Character& _character)
 		{
 			if (sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
 			{
-				direction *= -1;
+				if (direction == 1)
+				{
+					direction = -1;
+					sprite.setScale(1, 1);
+					sprite.setOrigin(sprite.getLocalBounds().left, 0);
+				}
+				else
+				{
+					direction = 1;
+					sprite.setScale(-1, 1);
+					sprite.setOrigin(sprite.getLocalBounds().width, 0);
+				}
 			}
 		}
 		else if (UnkillableEnemy* enemy = dynamic_cast<UnkillableEnemy*>(_map.Enemies[i].get()))
 		{
 			if (this != enemy && sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
 			{
-				direction *= -1;
+				if (direction == 1)
+				{
+					direction = -1;
+					sprite.setScale(1, 1);
+					sprite.setOrigin(sprite.getLocalBounds().left, 0);
+				}
+				else
+				{
+					direction = 1;
+					sprite.setScale(-1, 1);
+					sprite.setOrigin(sprite.getLocalBounds().width, 0);
+				}
 			}
 		}
 	}
@@ -53,10 +75,14 @@ void UnkillableEnemy::update(Map& _map, Character& _character)
 			if (direction == 1)
 			{
 				direction = -1;
+				sprite.setScale(1, 1);
+				sprite.setOrigin(sprite.getLocalBounds().left, 0);
 			}
 			else
 			{
 				direction = 1;
+				sprite.setScale(-1, 1);
+				sprite.setOrigin(sprite.getLocalBounds().width, 0);
 			}
 			y_velocity = 0;
 		}

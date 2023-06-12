@@ -164,7 +164,7 @@ sf::Vector2f Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(200, 0, 0))
 			{
 				sf::CircleShape circle;
-				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setPosition(i * CELL_SIZE + 15, j * CELL_SIZE + 15);
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(200, 0, 0));
 				Powers.emplace_back(circle);
@@ -173,7 +173,7 @@ sf::Vector2f Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(0, 200, 0))
 			{
 				sf::CircleShape circle;
-				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setPosition(i * CELL_SIZE + 15, j * CELL_SIZE + 15);
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(0, 200, 0));
 				Powers.emplace_back(circle);
@@ -182,7 +182,7 @@ sf::Vector2f Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(0, 0, 200))
 			{
 				sf::CircleShape circle;
-				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setPosition(i * CELL_SIZE + 15, j * CELL_SIZE + 15);
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(0, 0, 200));
 				Powers.emplace_back(circle);
@@ -191,7 +191,7 @@ sf::Vector2f Map::load_from_file(std::string map_directory)
 			else if (map_image.getPixel(i, j) == sf::Color(250, 100, 50))
 			{
 				sf::CircleShape circle;
-				circle.setPosition(i * CELL_SIZE, j * CELL_SIZE);
+				circle.setPosition(i * CELL_SIZE + 15, j * CELL_SIZE + 15);
 				circle.setRadius(10);
 				circle.setFillColor(sf::Color(250, 100, 50));
 				Powers.emplace_back(circle);

@@ -8,7 +8,7 @@
 
 void Game::update(sf::RenderWindow& window)
 {
-    unsigned short mapNumber = 0;
+    unsigned short mapNumber = 1;
     const unsigned short numberOfMaps = 3;  //iloœæ map
     std::string mapName = "";
 

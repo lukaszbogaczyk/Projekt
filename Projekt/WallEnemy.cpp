@@ -35,59 +35,92 @@ void WallEnemy::update(Map& _map, Character& _character)
 		{
 			_character.velocity_y = -1 * PLAYER_JUMP_VELOCITY;
 			alive = false;
-			sprite.setOrigin(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 			sprite.setRotation(180);
+			sprite.move(50, 50);
+			x = sprite.getPosition().x;
+			y = sprite.getPosition().y;
 		}
-		else if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
+		else 
 		{
-			_character.change_lives(-1);
-		}
-
-		for (int i = 0; i < _map.Enemies.size(); i++)
-		{
-			if (WallEnemy* enemy = dynamic_cast<WallEnemy*>(_map.Enemies[i].get()))
+			if (sprite.getGlobalBounds().intersects(_character.sprite.getGlobalBounds()))
 			{
-				if (this != enemy && sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
+				_character.change_lives(-1);
+			}
+			for (int i = 0; i < _map.Enemies.size(); i++)
+			{
+				if (WallEnemy* enemy = dynamic_cast<WallEnemy*>(_map.Enemies[i].get()))
 				{
-					direction *= -1;
+					if (this != enemy && sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
+					{
+						if (direction == 1)
+						{
+							direction = -1;
+							sprite.setScale(1, 1);
+							sprite.setOrigin(sprite.getLocalBounds().left, 0);
+						}
+						else
+						{
+							direction = 1;
+							sprite.setScale(-1, 1);
+							sprite.setOrigin(sprite.getLocalBounds().width, 0);
+						}
+					}
+				}
+				else if (UnkillableEnemy* enemy = dynamic_cast<UnkillableEnemy*>(_map.Enemies[i].get()))
+				{
+					if (sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
+					{
+						if (direction == 1)
+						{
+							direction = -1;
+							sprite.setScale(1, 1);
+							sprite.setOrigin(sprite.getLocalBounds().left, 0);
+						}
+						else
+						{
+							direction = 1;
+							sprite.setScale(-1, 1);
+							sprite.setOrigin(sprite.getLocalBounds().width, 0);
+						}
+					}
 				}
 			}
-			else if (UnkillableEnemy* enemy = dynamic_cast<UnkillableEnemy*>(_map.Enemies[i].get()))
-			{
-				if (sprite.getGlobalBounds().intersects(enemy->sprite.getGlobalBounds()))
-				{
-					direction *= -1;
-				}
-			}
-		}
 
-		sf::FloatRect rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE + 2);
-		if (_map.colision({ Cell::Brick, Cell::Spike}, rect))
-		{
-			y_velocity = 0;
-			rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+			sf::FloatRect rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE + 2);
 			if (_map.colision({ Cell::Brick, Cell::Spike }, rect))
 			{
-				if (direction == 1)
-				{
-					direction = -1;
-				}
-				else
-				{
-					direction = 1;
-				}
 				y_velocity = 0;
+				rect = sf::FloatRect(x + 1, y + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+				if (_map.colision({ Cell::Brick, Cell::Spike }, rect))
+				{
+					if (direction == 1)
+					{
+						direction = -1;
+						sprite.setScale(1, 1);
+						sprite.setOrigin(sprite.getLocalBounds().left, 0);
+					}
+					else
+					{
+						direction = 1;
+						sprite.setScale(-1, 1);
+						sprite.setOrigin(sprite.getLocalBounds().width, 0);
+					}
+					y_velocity = 0;
+
+
+
+				}
 			}
-		}
-		else
-		{
-			y_velocity = std::min<float>(y_velocity + gravity, max_gravity);
-		}
+			else
+			{
+				y_velocity = std::min<float>(y_velocity + gravity, max_gravity);
+			}
 
-		y += y_velocity;
-		x += speed * direction;
+			y += y_velocity;
+			x += speed * direction;
 
-		sprite.setPosition(x, y);
+			sprite.setPosition(x, y);	
+		}
 	}
 	else
 	{
@@ -101,7 +134,6 @@ void WallEnemy::update(Map& _map, Character& _character)
 			sprite.setPosition(x, y);
 		}
 	}
-	
 }
 
 bool WallEnemy::onMap()
