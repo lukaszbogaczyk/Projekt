@@ -26,9 +26,21 @@ class Character
 	bool jump;
 	bool end_jump;
 	bool double_jump_red;
+	bool leftMoving;
+	void animation();
+	void textDisplay(sf::RenderWindow& _window, Camera& _camera);
 
 	sf::Clock clock;
 	sf::Time time;
+	
+	//animacja
+	const unsigned short numberOfFrames = 3;
+	unsigned short frameWidth = 0;
+	unsigned short currentFrame = 0;
+	float animationSpeed = 0.2f; 
+	float elapsed = 0.0f; 
+	unsigned short frameHeight = 1;
+	bool isMoving = false;
 
 public:
 	Character();

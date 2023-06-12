@@ -8,7 +8,7 @@
 
 void Game::update(sf::RenderWindow& window)
 {
-    unsigned short mapNumber = 2;
+    unsigned short mapNumber =0;
     const unsigned short numberOfMaps = 3;  //iloœæ map
     std::string mapName = "";
 
@@ -80,7 +80,7 @@ void Game::update(sf::RenderWindow& window)
                 }
             }
 
-            window.clear(sf::Color(29, 210, 231));
+            window.clear(sf::Color(68, 142, 228));
             window.setView(camera.view);
 
 
