@@ -176,11 +176,13 @@ void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
 			end_jump = 0;
 		}
 		else if (double_jump_red) {
+			velocity_y = 0;
 			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
 			end_jump = 0;
 		}
 		else if (double_jump_orange) {
+			velocity_y = 0;
 			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
 			end_jump = 0;
