@@ -27,7 +27,6 @@ class Character
 public:
 	Character();
 	sf::RectangleShape rect;
-	float y_velocity;
 
 	void draw(sf::RenderWindow& _window);
 	void set_xy(float X, float Y);

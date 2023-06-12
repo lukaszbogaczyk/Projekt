@@ -48,7 +48,6 @@ int main()
             
 
         }
-        character.y_velocity = 0;
         
 
         window.clear(sf::Color(29, 210, 231));
@@ -77,9 +76,9 @@ int main()
         character.update(map, window, camera);
         camera.update(map, character);
 
-bool dj = character.power_ups(map.Powers);
+bool double_jump = character.power_ups(map.Powers);
 
-character.movement(map_sprites,dj);
+character.movement(map_sprites,double_jump);
 
         window.display();
     }
