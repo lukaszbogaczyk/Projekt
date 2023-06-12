@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iomanip>
 
+
 Character::Character() {
 	texture.loadFromFile("Images/guy.png");//wczytanie z pliku
 	x = 0;
@@ -24,7 +25,6 @@ Character::Character() {
 	jump = 0;
 	end_jump = 1;
 	double_jump_red = 0;
-
 }
 
 
@@ -99,6 +99,9 @@ void Character::change_lives(const short &change)
 	lives += change;
 	if (change < 0)
 	{
+		lg_timer = 300;
+		low_gravity = false;
+		double_jump_orange = false;
 		respawn = true;
 	}
 }

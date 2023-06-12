@@ -19,18 +19,10 @@ void Game::update(sf::RenderWindow& window)
     Character character;
 
     Menu menu;
-    float velocity_x = 0;
-    float velocity_y = 0;
-    bool jump = 0;
-    bool end_jump = 1;
 
     std::vector<sf::Sprite> map_sprites;
 
-    unsigned short lg_timer = 300;
-
     bool dj = 0;
-
-
 
     while (restart == false && window.isOpen())
     {
@@ -47,7 +39,6 @@ void Game::update(sf::RenderWindow& window)
             else
             {
                 mapName = "Images/mapa" + std::to_string(mapNumber) + ".png";
-                std::cout << mapName;
                 character.respawnPosition = map.load_from_file(mapName); //wczytanie mapy z pliku
                 character.set_xy(character.respawnPosition);
                 character.nextRound = false;
@@ -79,11 +70,13 @@ void Game::update(sf::RenderWindow& window)
                     {
                         window.close();
                     }
+                }
+                if (event.type == sf::Event::KeyReleased)
+                {
                     if (event.key.code == sf::Keyboard::R)
                     {
                         restart = true;
                     }
-
                 }
             }
 
