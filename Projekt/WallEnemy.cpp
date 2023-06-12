@@ -33,6 +33,7 @@ void WallEnemy::update(Map& _map, Character& _character)
 
 		if (sprite.getGlobalBounds().intersects(characterRect))
 		{
+			_character.velocity_y = -1 * PLAYER_JUMP_VELOCITY;
 			alive = false;
 			sprite.setOrigin(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
 			sprite.setRotation(180);
