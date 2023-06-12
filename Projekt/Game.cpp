@@ -66,11 +66,6 @@ void Game::update(sf::RenderWindow& window)
             }
 
 
-            if (jump && velocity_y > -PLAYER_JUMP_VELOCITY) {
-                velocity_y += -PLAYER_JUMP_VELOCITY / 8;
-                if (velocity_y <= -PLAYER_JUMP_VELOCITY)
-                    jump = 0;
-            }
             sf::Event event;
             while (window.pollEvent(event))
             {
@@ -88,51 +83,9 @@ void Game::update(sf::RenderWindow& window)
                     {
                         restart = true;
                     }
-                    if (event.key.code == sf::Keyboard::Left)//zmienianie prêdkoœci postaci
-                    {
-                        velocity_x = -PLAYER_X_VELOCITY;
-                    }
-                    if (event.key.code == sf::Keyboard::Right)
-                    {
-                        velocity_x = PLAYER_X_VELOCITY;
-                    }
-                    if (event.key.code == sf::Keyboard::Up)
-                    {
-                        if (character.on_ground(map_sprites)) {
-                            velocity_y += -PLAYER_JUMP_VELOCITY / 2;
-                            jump = 1;
-                            end_jump = 0;
-                        }
-                        else if (dj) {
-                            velocity_y = -PLAYER_JUMP_VELOCITY / 2;
-                            jump = 1;
-                            end_jump = 0;
-                        }
-                        else if (character.get_double_jump() && end_jump) {
-                            velocity_y = -PLAYER_JUMP_VELOCITY / 2;
-                            jump = 1;
-                            end_jump = 0;
-                            character.set_double_jump(0);
-                        }
 
-                    }
                 }
-
-                if (event.type == sf::Event::KeyReleased) {
-                    if (event.key.code == sf::Keyboard::Left && velocity_x != PLAYER_X_VELOCITY) {
-                        velocity_x = 0;
-                    }
-                    if (event.key.code == sf::Keyboard::Right && velocity_x != -PLAYER_X_VELOCITY) {
-                        velocity_x = 0;
-                    }
-                    if (event.key.code == sf::Keyboard::Up) {
-                        jump = 0;
-                        end_jump = 1;
-                    }
-                }
-
             }
-            character.y_velocity = 0;
 
             window.clear(sf::Color(29, 210, 231));
             window.setView(camera.view);
@@ -163,28 +116,10 @@ void Game::update(sf::RenderWindow& window)
                 character.update(map, window, camera);
                 camera.update(map, character);
             }
-            
-
-
-
-            character.change_x(velocity_x, map_sprites);//zmiana pozycji
-            character.change_y(velocity_y, map_sprites, velocity_y);
-
-            if (!jump) {
-                if (velocity_y < MAX_PLAYER_FALL_VELOCITY && character.get_low_gravity()) {   //grawitacja
-                    velocity_y += GRAVITY / 2;
-                    lg_timer--;
-                    if (lg_timer == 0) {
-                        character.set_low_gravity(0);
-                        lg_timer = 300;
-                    }
-                }
-                else if (velocity_y < MAX_PLAYER_FALL_VELOCITY) {   //grawitacja
-                    velocity_y += GRAVITY;
-                }
-            }
+          
 
             dj = character.power_ups(map.Powers);
+            character.movement(map_sprites, dj);
 
             menu.draw(window, character, camera);
 

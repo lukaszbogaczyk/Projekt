@@ -33,6 +33,9 @@ class Character
 public:
 	Character();
 	sf::RectangleShape rect;
+	sf::Vector2f respawnPosition;
+	bool respawn = false;
+	bool nextRound = true;
 
 	void draw(sf::RenderWindow& _window);
 	void set_xy(float X, float Y);
