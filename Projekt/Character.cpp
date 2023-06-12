@@ -41,7 +41,6 @@ void Character::draw(sf::RenderWindow& _window) {
 
 }
 void Character::change_x(float X, std::vector<sf::Sprite> map) {
-	std::cout << sprite.getPosition().x << " | " << sprite.getPosition().y << std::endl;
 	//zmienienie pozycji rect
 	rect.setPosition(x + X, y);
 	sf::RectangleShape r = rect;
@@ -69,7 +68,11 @@ void Character::change_y(float Y, std::vector<sf::Sprite> map, float &vel) {
 bool Character::on_ground(std::vector<sf::Sprite> map) {
 	//zmienienie pozycji rect
 	rect.setPosition(x, y + 10);
+	sf::Sprite s = sprite;
 	sf::RectangleShape r = rect;
+	if (std::any_of(map.begin(), map.end(), [s](sf::Sprite map_sprite) {return map_sprite.getGlobalBounds().intersects(s.getGlobalBounds());  })) {
+		y--;
+	}
 	//sprawdzanie kolizji rect z blokami mapy
 	if (std::any_of(map.begin(), map.end(), [r](sf::Sprite map_sprite) {return map_sprite.getGlobalBounds().intersects(r.getGlobalBounds());  })) {
 		return 1;
@@ -224,19 +227,19 @@ void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		velocity_x = 0;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) &&!jump) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ) {
 		if (this->on_ground(map_sprites)) {
-			velocity_y += -PLAYER_JUMP_VELOCITY / 2;
+			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
 			end_jump = 0;
 		}
-		else if (double_jump_red) {
+		else if (double_jump_red ) {
 			velocity_y = 0;
 			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
 			end_jump = 0;
 		}
-		else if (double_jump_orange && end_jump) {
+		else if (double_jump_orange && end_jump ) {
 			velocity_y = 0;
 			velocity_y = -PLAYER_JUMP_VELOCITY / 2;
 			jump = 1;
@@ -265,6 +268,5 @@ void Character::movement(std::vector<sf::Sprite> map_sprites,bool dj) {
 			velocity_y += GRAVITY;
 		}
 	}
-	std::cout << double_jump_orange << " " << double_jump_red << std::endl;
 	double_jump_red = dj;
 }
