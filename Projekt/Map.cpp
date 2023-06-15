@@ -2,7 +2,6 @@
 #include "Global_variables.h"
 #include "WallEnemy.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include "UnkillableEnemy.h"
 
 Map::Map()

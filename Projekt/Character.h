@@ -36,10 +36,10 @@ class Character
 	//animacja
 	const unsigned short numberOfFrames = 3;
 	unsigned short frameWidth = 0;
-	unsigned short currentFrame = 0;
+	unsigned short currentFrame = 1;
 	float animationSpeed = 0.2f; 
 	float elapsed = 0.0f; 
-	unsigned short frameHeight = 1;
+	unsigned short frameHeight = 0;
 	bool isMoving = false;
 
 public:

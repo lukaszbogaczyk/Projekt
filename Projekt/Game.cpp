@@ -4,7 +4,6 @@
 #include "Map.h"
 #include "Character.h"
 #include "Camera.h"
-#include <iostream>
 
 void Game::update(sf::RenderWindow& window)
 {

@@ -3,7 +3,6 @@
 #include "Map.h"
 #include "Character.h"
 #include "Camera.h"
-#include <iostream>
 #include "Game.h"
 #include <SFML/Audio.hpp>
 

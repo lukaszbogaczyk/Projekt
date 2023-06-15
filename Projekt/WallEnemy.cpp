@@ -1,6 +1,5 @@
 #include "WallEnemy.h"
 #include "UnkillableEnemy.h"
-#include <iostream>
 #include <algorithm>
 
 WallEnemy::WallEnemy(float _x, float _y)

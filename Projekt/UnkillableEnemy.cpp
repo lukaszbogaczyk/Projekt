@@ -1,5 +1,4 @@
 #include "UnkillableEnemy.h"
-#include <iostream>
 #include <algorithm>
 
 UnkillableEnemy::UnkillableEnemy(float _x, float _y)
